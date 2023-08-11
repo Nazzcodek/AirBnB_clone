@@ -4,7 +4,7 @@
 import cmd
 import models
 from models import storage
-from models.base_model import BaeModel
+from models.base_model import BaseModel
 
 
 classes = {
@@ -73,11 +73,10 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, line):
         """ Deletes an instance based on the class name and id """
         arg_line = line.split()
-        class_obj = check_class(arg_line[0])
 
-        if not arg_line[0]:
+        if not arg_line:
             print("** class name is missing **")
-        elif class_obj is None:
+        elif check_class(arg_line[0]) is None:
             print("** class doesn't exist **")
         else:
             if len(arg_line) < 2:
@@ -93,17 +92,26 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, line):
         """ Print srting representation of all object """
-        arg_line = line.split()
+        arg_line = line.split() if line else []
         class_obj = check_class(arg_line[0])
+        instance_strings = []
 
-        if not line or class_obj:
+        if not arg_line:
             all_instances = storage.all().values()
-            instance_strings = []
             for obj in all_instances:
                 instance_strings.append(str(obj))
             print(instance_strings)
-        else:
+        elif not class_obj:
             print("** class doesn't exist **")
+            return
+        else:
+            for obj in storage.all().values():
+                if arg_line[0] == obj.to_dict()["__class__"]:
+                    instance_strings.append(str(obj))
+
+        if instance_strings:
+            print(instance_strings)
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

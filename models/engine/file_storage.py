@@ -47,7 +47,7 @@ class FileStorage(BaseModel):
         for k, v in self.__objects.items():
             json_object[k] = v.to_dict()
 
-        with open(self.__objects) as f:
+        with open(self.__file_path, 'w', encoding='UTF-8') as f:
             json.dump(json_object, f)
 
     def reload(self):
