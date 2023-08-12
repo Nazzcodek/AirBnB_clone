@@ -36,5 +36,6 @@ class TestBaseModel(unittest.TestCase):
         expected_str = f"[{class_name}] ({model.id}) {model.__dict__}"
         self.assertEqual(str(model), expected_str)
 
+
 if __name__ == '__main__':
     unittest.main()
