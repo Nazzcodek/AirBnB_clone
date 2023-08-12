@@ -38,10 +38,13 @@ class BaseModel:
         self.created_at = datetime.now()
         self.updated_at = self.created_at
 
-        if kwargs is not None:
+        if kwargs:
             for k, v in kwargs.items():
+                if k == "__class__":
+                    continue
                 if k in ['created_at', 'updated_at']:
-                    v = datetime.strptime(v, time)
+                    v = datetime.strptime(str(v), time)
+                    setattr(self, k, v)
                 if k != '__class__':
                     setattr(self, k, v)
         else:
