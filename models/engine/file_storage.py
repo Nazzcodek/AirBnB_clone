@@ -26,17 +26,20 @@ class FileStorage(BaseModel):
     """
     __file_path = 'file.json'
     __objects = {}
+    classes = {
+            "BaseModel": BaseModel
+            }
 
     # public instance method
     def all(self):
         """ returns the dictionary __objects"""
-        return self.__objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """This method sets __objects the obj with key <obj class name>.id"""
         obj_class_name = obj.__class__.__name__
-        key = f"{obj_class_name}.{obj.id}"
-        self.__objects[key] = obj
+        key = "{}.{}".format(obj_class_name, obj.id)
+        FileStorage.__objects[key] = obj
 
     def save(self):
         """
@@ -44,19 +47,19 @@ class FileStorage(BaseModel):
         (path: __file_path)
         """
         json_object = {}
-        for k, v in self.__objects.items():
+        for k, v in FileStorage.__objects.items():
             json_object[k] = v.to_dict()
 
-        with open(self.__file_path, 'w', encoding='UTF-8') as f:
+        with open(FileStorage.__file_path, 'w', encoding='UTF-8') as f:
             json.dump(json_object, f)
 
     def reload(self):
         """This method deserializes the JSON file to __objects"""
-        load_file = self.__file_path
+        load_file = FileStorage.__file_path
 
         if os.path.exists(load_file):
-            with open(load_file, "r", encoding="UTF-8") as file:
-                load_dict_obj = json.load(file)
+            with open(load_file, "r", encoding="UTF-8") as f:
+                load_dict_obj = json.load(f)
             for k, v in load_dict_obj.items():
-                obj = self.class_dict[v["__class__"]](**v)
-                self.__objects[k] = obj
+                obj = FileStorage.classes[v["__class__"]](**v)
+                FileStorage.__objects[k] = obj

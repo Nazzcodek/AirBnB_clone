@@ -6,22 +6,12 @@ import models
 from models import storage
 from models.base_model import BaseModel
 
-
-classes = {
-        'BaseModel': BaseModel
-        }
-
-def check_class(class_name):
-    """Checks if the given class name exists and
-        returns the class object if it does."""
-    if class_name in classes:
-        return classes[class_name]
-    else:
-        return None
-
 class HBNBCommand(cmd.Cmd):
     """Thiss is the console module class"""
-    prompt = '(hbnb) ' 
+    prompt = '(hbnb) '
+    classes = {
+            "BaseModel": BaseModel,
+            }
 
     def do_quit(self, line):
         """ Quit command to exit the program """
@@ -42,11 +32,10 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        class_obj = check_class(line)
-        if class_obj is None:
+        if line not in self.classes:
             print("** class doesn't exist **")
         else:
-            instance = class_obj()
+            instance = self.classes[line]()
             instance.save()
             print("{}".format(instance.id))
 
@@ -54,10 +43,9 @@ class HBNBCommand(cmd.Cmd):
         """Show the string representation of instances"""
         arg_line = line.split()
 
-        class_obj = check_class(arg_line[0])
-        if not line:
+        if not arg_line:
             print("** class name is missing **")
-        elif class_obj is None:
+        elif arg_line[0] not in self.classes:
             print("** class doesn't exist **")
         else:
             if len(arg_line) < 2:
@@ -76,7 +64,7 @@ class HBNBCommand(cmd.Cmd):
 
         if not arg_line:
             print("** class name is missing **")
-        elif check_class(arg_line[0]) is None:
+        elif arg_line[0] not in self.classes:
             print("** class doesn't exist **")
         else:
             if len(arg_line) < 2:
@@ -93,7 +81,6 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, line):
         """ Print srting representation of all object """
         arg_line = line.split() if line else []
-        class_obj = check_class(arg_line[0])
         instance_strings = []
 
         if not arg_line:
@@ -101,7 +88,7 @@ class HBNBCommand(cmd.Cmd):
             for obj in all_instances:
                 instance_strings.append(str(obj))
             print(instance_strings)
-        elif not class_obj:
+        elif arg_line[0] not in self.classes:
             print("** class doesn't exist **")
             return
         else:
