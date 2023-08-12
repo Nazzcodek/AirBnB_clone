@@ -6,6 +6,7 @@ import models
 from models import storage
 from models.base_model import BaseModel
 
+
 class HBNBCommand(cmd.Cmd):
     """Thiss is the console module class"""
     prompt = '(hbnb) '
@@ -27,7 +28,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, line):
-        """Create a new instance of base model"""  
+        """Create a new instance of base model"""
         if not line:
             print("** class name missing **")
             return
