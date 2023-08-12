@@ -42,10 +42,10 @@ class BaseModel:
             for k, v in kwargs.items():
                 if k == "__class__":
                     continue
-                if k in ['created_at', 'updated_at']:
-                    v = datetime.strptime(str(v), time)
-                    setattr(self, k, v)
-                if k != '__class__':
+                elif k in ['created_at', 'updated_at']:
+                    new_value = datetime.strptime(v, time)
+                    setattr(self, k, new_value)
+                else:
                     setattr(self, k, v)
         else:
             models.storage.new(self)
