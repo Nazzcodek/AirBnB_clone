@@ -4,7 +4,7 @@
 import cmd
 from models import storage
 from models.base_model import BaseModel
-
+import shlex
 
 class HBNBCommand(cmd.Cmd):
     """Thiss is the console module class"""
@@ -98,6 +98,44 @@ class HBNBCommand(cmd.Cmd):
 
         if instance_strings:
             print(instance_strings)
+
+    def do_update(self, line):
+        """Update an Instance base on class name and id"""
+        arg_line = line.split()
+        objects = storage.all()
+        
+        if not line:
+            print("** class name missing **")
+            return
+
+        if arg_line[0] not in self.classes:
+            print("** class doesn't exist **")
+            return
+
+        if len(arg_line) == 1:
+            print("** instance id missing **")
+            return
+
+        key = "{}.{}".format(arg_line[0], arg_line[1])
+        if key not in objects:
+            print("** no instance found **")
+            return
+
+        if len(arg_line) == 2:
+            print("** attribute name missing **")
+            return
+
+        if len(arg_line) == 3:
+            print("** value missing **")
+            return
+
+        else:
+            instance = objects[key]
+            attr_name = arg_line[2]
+            attr_value = arg_line[3]
+
+            setattr(instance, attr_name, attr_value)
+            storage.save()
 
 
 if __name__ == '__main__':
