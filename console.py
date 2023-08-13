@@ -2,6 +2,7 @@
 """This is the consele module"""
 
 import cmd
+import re
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
@@ -148,6 +149,36 @@ class HBNBCommand(cmd.Cmd):
 
             setattr(instance, attr_name, attr_value)
             storage.save()
+
+    def do_count(self, line):
+        """Retrieve the number of instances of a given class."""
+        arg_line = line.split()
+        count = 0
+        for obj in storage.all().values():
+            if arg_line[0] == obj.__class__.__name__:
+                count += 1
+        print(count)
+
+    def default(self, line):
+        """This changes the default method of all instances"""
+        methods = {
+                "all": self.do_all,
+                "show": self.do_show,
+                "update": self.do_update,
+                "destroy": self.do_destroy,
+                "count": self.do_count,
+                }
+        find = re.search(r"\.", line)
+        if find is not None:
+            arg_line = [line[:find.span()[0]], line[find.span()[1]:]]
+            find = re.search(r"\((.*?)\)", arg_line[1])
+            if find is not None:
+                command = [arg_line[1][:find.span()[0]], find.group()[1:-1]]
+                if command[0] in methods.keys():
+                    call = "{} {}".format(arg_line[0], command[1])
+                    return methods[command[0]](call)
+        print("*** Unknown syntax: {}".format(line))
+        return
 
 
 if __name__ == '__main__':
