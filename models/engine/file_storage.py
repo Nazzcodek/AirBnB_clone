@@ -16,19 +16,22 @@ Methods:
 import json
 import os.path
 
-from models.base_model import BaseModel
 
-
-class FileStorage(BaseModel):
+class FileStorage:
     """This is the FileStorage model that
         - serialzes instances to a JSON file and
         - deserializez JSON file to instances
     """
     __file_path = 'file.json'
     __objects = {}
-    classes = {
+
+    def classes(self):
+        """ returns the dictionary classes"""
+        from models.base_model import BaseModel
+        classes = {
             "BaseModel": BaseModel
             }
+        return classes
 
     # public instance method
     def all(self):
@@ -61,5 +64,5 @@ class FileStorage(BaseModel):
             with open(load_file, "r", encoding="UTF-8") as f:
                 load_dict_obj = json.load(f)
             for k, v in load_dict_obj.items():
-                obj = FileStorage.classes[v["__class__"]](**v)
+                obj = self.classes()[v["__class__"]](**v)
                 FileStorage.__objects[k] = obj
