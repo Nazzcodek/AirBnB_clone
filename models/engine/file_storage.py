@@ -15,12 +15,12 @@ Methods:
 """
 import json
 import os.path
-from models.User import User
-from models.State import State 
-from models.City import City 
-from models.Amenity import Amenity 
-from models.Place import Place 
-from models.Review import Review
+from models.user import User
+from models.state import State 
+from models.city import City 
+from models.amenity import Amenity 
+from models.place import Place 
+from models.review import Review
 
 class FileStorage:
     """This is the FileStorage model that
