@@ -169,10 +169,10 @@ class HBNBCommand(cmd.Cmd):
                 "count": self.do_count,
                 }
         find = re.search(r"\.", line)
-        if find is not None:
+        if find:
             arg_line = [line[:find.span()[0]], line[find.span()[1]:]]
             find = re.search(r"\((.*?)\)", arg_line[1])
-            if find is not None:
+            if find:
                 command = [arg_line[1][:find.span()[0]], find.group()[1:-1]]
                 if command[0] in methods.keys():
                     call = "{} {}".format(arg_line[0], command[1])
