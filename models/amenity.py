@@ -5,4 +5,4 @@ from models.base_model import BaseModel
 
 class Amenity(BaseModel):
     """This is the Amenity instance object"""
-    name = "" 
+    name = ""
