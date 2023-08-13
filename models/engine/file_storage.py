@@ -15,7 +15,12 @@ Methods:
 """
 import json
 import os.path
-
+from models.User import User
+from models.State import State 
+from models.City import City 
+from models.Amenity import Amenity 
+from models.Place import Place 
+from models.Review import Review
 
 class FileStorage:
     """This is the FileStorage model that
@@ -29,7 +34,13 @@ class FileStorage:
         """ returns the dictionary classes"""
         from models.base_model import BaseModel
         classes = {
-            "BaseModel": BaseModel
+            "BaseModel": BaseModel,
+            "User": User,
+            "State": State,
+            "City": City,
+            "Amenity": Amenity,
+            "Place": Place,
+            "Review": Review
             }
         return classes
 

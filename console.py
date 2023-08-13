@@ -4,6 +4,12 @@
 import cmd
 from models import storage
 from models.base_model import BaseModel
+from models.User import User
+from models.State import State
+from models.City import City
+from models.Amenity import Amenity
+from models.Place import Place
+from models.Review import Review
 import shlex
 
 class HBNBCommand(cmd.Cmd):
@@ -11,6 +17,12 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
     classes = {
             "BaseModel": BaseModel,
+            "User": User,
+            "State": State,
+            "City": City,
+            "Amenity": Amenity,
+            "Place": Place,
+            "Review": Review
             }
 
     def do_quit(self, line):
