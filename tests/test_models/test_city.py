@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """This is the test city module to for city module"""
 import unittest
-from models.city impoert City
+from models.city import City
 
 
 class TestCity(unittest.TestCase):
