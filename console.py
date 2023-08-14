@@ -116,7 +116,7 @@ class HBNBCommand(cmd.Cmd):
         """Update an Instance base on class name and id"""
         arg_line = line.split()
         objects = storage.all()
- 
+
         if not line:
             print("** class name missing **")
             return
