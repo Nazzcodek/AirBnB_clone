@@ -5,5 +5,5 @@ from models.base_model import BaseModel
 
 class City(BaseModel):
     """this is the City instance object"""
-    stae_id = ""
+    state_id = ""
     name = ""

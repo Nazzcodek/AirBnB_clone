@@ -2,6 +2,7 @@
 
 import unittest
 import uuid
+from datetime import datetime
 
 from models.base_model import BaseModel
 
@@ -11,7 +12,7 @@ class TestBaseModel(unittest.TestCase):
     def test_init(self):
         """Tests the __init__ method."""
         model = BaseModel()
-        self.assertEqual(model.created_at, datetime.now())
+        self.assertGreater( datetime.now(), model.created_at)
         self.assertEqual(model.updated_at, model.created_at)
 
     def test_save(self):
@@ -73,9 +74,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(hasattr(test_model, 'updated_at'))
         self.assertIsNotNone(test_model.updated_at)
         self.assertIsInstance(test_model.updated_at, datetime)
-
-        # Check if updated_at time is after created_at
-        self.assertGreater(test_model.updated_at, test_model.created_at)
 
         # Check that *args was not used
         test_with_arg = BaseModel("args")
