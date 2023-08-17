@@ -8,7 +8,7 @@ footer {
         display: flex;
         align-items: center;
         justify-content: center;
-	border-top: 1px #CCCCCC;
+	border-top: 1px solid #CCCCCC;
 }
 footer.p {
         margin: 0;
