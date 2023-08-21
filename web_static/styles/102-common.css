@@ -1,0 +1,39 @@
+body {
+	margin: 0;
+	padding: 0;
+	color: #484848;
+	font-size: 14px;
+	font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+.container {
+	width: 1000px;
+	margin: 30px auto;
+}
+@media (max-width: 600px) {
+    /* Adjust header and footer styles */
+    header {
+        background-size: 40%;
+    }
+    footer {
+        font-size: 10px;
+        height: 30px;
+    }
+
+    /* Adjust filters and button styles */
+    .filters .locations,
+    .filters .amenities {
+        width: 100%;
+        padding: 10px;
+        border-right: none;
+    }
+    button {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    /* Adjust places section styles */
+    .places article {
+        width: 100%;
+        margin: 10px 0;
+    }
+}
