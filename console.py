@@ -3,6 +3,7 @@
 
 import cmd
 import re
+import json
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
@@ -169,14 +170,24 @@ class HBNBCommand(cmd.Cmd):
                 "count": self.do_count,
                 }
         find = re.search(r"\.", line)
+        match = re.findall(r"^(\w+)\.(\w+)\((.*)\)", line)
         if find:
             arg_line = [line[:find.span()[0]], line[find.span()[1]:]]
             find = re.search(r"\((.*?)\)", arg_line[1])
             if find:
                 command = [arg_line[1][:find.span()[0]], find.group()[1:-1]]
-                if command[0] in methods.keys():
+                if command[0] in methods:
                     call = "{} {}".format(arg_line[0], command[1])
                     return methods[command[0]](call)
+
+        if match and match[0][1] == "update" and "{" in line:
+            match_dict = re.search(r"{([^}]+)}", line).group()
+            match_dict = json.loads(match_dict.replace("'", '"'))
+            for k, v in match_dict.items():
+                arg_line = line.split("{")[0]+k+", "+str(v)+")"
+                print(arg_line)
+                return methods[match[0][1]](arg_line)
+                
         print("*** Unknown syntax: {}".format(line))
         return
 
